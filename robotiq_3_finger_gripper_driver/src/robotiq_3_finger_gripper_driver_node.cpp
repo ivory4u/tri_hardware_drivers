@@ -227,6 +227,7 @@ int main(int argc, char** argv)
     ROS_INFO("status_topic [%s]",status_topic.c_str());
     
     ROS_INFO("Start the driver 2");
+  
     // Start the driver
     robotiq_3_finger_gripper_driver::Robotiq3FingerDriver
           gripper(nh, status_topic, command_topic, gripper_interface_ptr);

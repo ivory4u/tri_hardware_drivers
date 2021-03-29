@@ -225,7 +225,7 @@ void Robotiq3FingerGripperModbusInterface
 //  rogi_first_register_ = 0x03e8; // by min close it
 //  rigo_first_register_ = 0x07d0; // by min close it
   rogi_first_register_ = 0x1234; // by min
-  rigo_first_register_ = 0x5678; // by min 
+  rigo_first_register_ = 0x0078; // by min 
   const int data_bits = 8;
   const int stop_bits = 1;
   const char parity = 'N';
