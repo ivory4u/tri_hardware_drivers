@@ -222,8 +222,10 @@ void Robotiq3FingerGripperModbusInterface
                    const int32_t gripper_baud_rate,
                    const uint16_t gripper_slave_id)
 {
-  rogi_first_register_ = 0x03e8;
-  rigo_first_register_ = 0x07d0;
+//  rogi_first_register_ = 0x03e8; // by min close it
+//  rigo_first_register_ = 0x07d0; // by min close it
+  rogi_first_register_ = 0x1234; // by min
+  rigo_first_register_ = 0x5678; // by min 
   const int data_bits = 8;
   const int stop_bits = 1;
   const char parity = 'N';
@@ -233,6 +235,10 @@ void Robotiq3FingerGripperModbusInterface
                                          parity,
                                          data_bits,
                                          stop_bits);
+
+  Log("ed..."); // by min
+  Log(modbus_rtu_interface.c_str()); // by min
+
   if (modbus_interface_ptr_ == nullptr)
   {
     const std::string error_msg(modbus_strerror(errno));

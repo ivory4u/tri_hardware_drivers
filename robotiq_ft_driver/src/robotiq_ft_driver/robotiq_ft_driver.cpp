@@ -9,7 +9,8 @@ RobotiqFTModbusRtuInterface::RobotiqFTModbusRtuInterface(
     const uint16_t sensor_slave_id)
   : logging_fn_(logging_fn)
 {
-  const int baud_rate = 19200;
+  //const int baud_rate = 19200; // by min close it
+  const int baud_rate = 115200; // by min 
   const int data_bits = 8;
   const int stop_bits = 1;
   const char parity = 'N';
