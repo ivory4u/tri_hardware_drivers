@@ -38,6 +38,7 @@ public:
     const bool success = gripper_interface_ptr_->ActivateGripper();
 
     ROS_INFO("success [%d]",success); // by min
+   // log("success [%d]",success); // by min
 
     if (!success)
     {
@@ -84,6 +85,7 @@ private:
 
   void CommandCB(Robotiq3FingerCommand command_msg)
   {
+    ROS_INFO("ed:: 123-1112"); // by min
     try
     {
       const Robotiq3FingerGripperCommand
@@ -91,6 +93,7 @@ private:
                           ConvertActuatorCommand(command_msg.finger_b_command),
                           ConvertActuatorCommand(command_msg.finger_c_command),
                           ConvertActuatorCommand(command_msg.scissor_command));
+      ROS_INFO("ed:: 123-111"); // by min
       const bool sent
           = gripper_interface_ptr_->SendGripperCommand(gripper_command);
 
@@ -112,6 +115,7 @@ private:
     const Robotiq3FingerGripperStatus status
         = gripper_interface_ptr_->GetGripperStatus();
     Robotiq3FingerState state_msg;
+	ROS_INFO("ed:: 123-5");
     state_msg.finger_a_state = ConvertActuatorStatus(status.FingerAStatus());
     state_msg.finger_b_state = ConvertActuatorStatus(status.FingerBStatus());
     state_msg.finger_c_state = ConvertActuatorStatus(status.FingerCStatus());
@@ -217,22 +221,24 @@ int main(int argc, char** argv)
     gripper_interface_ptr->ConnectModbusRtu(modbus_rtu_interface,
                                             gripper_baud_rate,
                                             gripper_slave_id);
-    ROS_INFO("Start the driver 1");
-    ROS_INFO("interface option [%s], valid options are [tcp] or [rtu]",
+    ROS_INFO("================================================");
+    ROS_INFO("[ROSINFO]Start the driver 1");
+    ROS_INFO("[ROSINFO]interface option [%s], valid options are [tcp] or [rtu]",
               interface_type.c_str());
-    ROS_INFO("modbus_rtu_interface [%s]",modbus_rtu_interface.c_str());
-    ROS_INFO("gripper_baud_rate [%d]",gripper_baud_rate);
-    ROS_INFO("gripper_slave_id [%d]",gripper_slave_id);
-    ROS_INFO("command_topic [%s]",command_topic.c_str());
-    ROS_INFO("status_topic [%s]",status_topic.c_str());
-    
-    ROS_INFO("Start the driver 2");
-  
+    ROS_INFO("[ROSINFO]modbus_rtu_interface [%s]",modbus_rtu_interface.c_str());
+    //ROS_INFO("gripper_interface_ptr [%s]",gripper_interface_ptr.c_str());
+    ROS_INFO("[ROSINFO]gripper_baud_rate [%d]",gripper_baud_rate);
+    ROS_INFO("[ROSINFO]gripper_slave_id [%d]",gripper_slave_id);
+    ROS_INFO("================================================");
+    ROS_INFO("[ROSINFO]status_topic [%s]",status_topic.c_str());
+    ROS_INFO("[ROSINFO]command_topic [%s]",command_topic.c_str());
+    ROS_INFO("================================================");
+     
     // Start the driver
     robotiq_3_finger_gripper_driver::Robotiq3FingerDriver
           gripper(nh, status_topic, command_topic, gripper_interface_ptr);
-    ROS_INFO("Start the driver 3");
-  //  gripper.Loop(poll_rate);
+    ROS_INFO("[ROSINFO]Start the driver 3");
+    gripper.Loop(poll_rate);
   }
   else
   {

@@ -21,6 +21,7 @@ bool Robotiq3FingerGripperInterface::SendGripperCommand(
     const Robotiq3FingerGripperCommand& command)
 {
   const Robotiq3FingerGripperStatus gripper_status = GetGripperStatus();
+  Log("ed:: 123-1");
   if (gripper_status.IsActivated())
   {
     // First, stop the gripper
@@ -84,6 +85,7 @@ bool Robotiq3FingerGripperInterface::CommandGripperBlocking(
   if (SendGripperCommand(command))
   {
     // Wait for the motion to finish
+    Log("ed:: 123-2");
     do
     {
       std::this_thread::sleep_for(std::chrono::duration<double>(1.0));
@@ -152,6 +154,7 @@ bool Robotiq3FingerGripperInterface::ReactivateGripper()
 bool Robotiq3FingerGripperInterface::ActivateGripper()
 {
   const Robotiq3FingerGripperStatus gripper_status = GetGripperStatus();
+  Log("ed:: 123-4");
   if (gripper_status.IsActivated())
   {
     Log("Gripper is already activated, no need to reactivate");
@@ -236,7 +239,7 @@ void Robotiq3FingerGripperModbusInterface
                                          data_bits,
                                          stop_bits);
 
-  Log("ed..."); // by min
+  Log("[ROSINFO]ed..."); // by min
   Log(modbus_rtu_interface.c_str()); // by min
 
   if (modbus_interface_ptr_ == nullptr)
@@ -304,6 +307,7 @@ bool Robotiq3FingerGripperModbusInterface::WriteROGIRegisters(
                                rogi_first_register_,
                                num_registers,
                                modbus_register_values.data());
+  Log("ed:: 1 ");
   if (registers_written == -1)
   {
     const std::string error_msg(modbus_strerror(errno));
@@ -337,13 +341,25 @@ Robotiq3FingerGripperModbusInterface::ReadRIGORegisters()
   }
   else if (interface_type_ == RTU)
   {
+  Log("ed:: 2, readrigoregisters()");
+
     ret = modbus_read_registers(modbus_interface_ptr_,
                                 rigo_first_register_,
                                 NUM_MODBUS_REGISTERS,
                                 raw_status_buffer.data());
+  
+/*
+  {
+
+    ret = modbus_write_register(modbus_interface_ptr_,
+                       0x0078,
+                       0x0001);
+  }
+*/
   }
   if (ret != NUM_MODBUS_REGISTERS)
   {
+    Log("ed:: 2, readrigoregisters()");
     const std::string error_msg(modbus_strerror(errno));
     throw std::runtime_error("Failed to read status registers with error: "
                              + error_msg);
